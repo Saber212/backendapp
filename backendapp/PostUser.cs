@@ -22,9 +22,7 @@ namespace backendapp
         [Function("PostUser")]
         public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
         {
-            _logger.LogInformation("Httprequest started");
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            _logger.LogInformation($"requestbody: {requestBody}");
 
             var user = JsonSerializer.Deserialize<Users>(requestBody);
             _logger.LogInformation($"user: {user}");
