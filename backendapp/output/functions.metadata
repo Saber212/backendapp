@@ -1,5 +1,59 @@
 [
   {
+    "name": "GetUserById",
+    "scriptFile": "backendapp.dll",
+    "entryPoint": "backendapp.GetUserById.Run",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "direction": "In",
+        "type": "httpTrigger",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "users/{id}",
+        "properties": {}
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetUsers",
+    "scriptFile": "backendapp.dll",
+    "entryPoint": "backendapp.GetUsers.Run",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "direction": "In",
+        "type": "httpTrigger",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "users",
+        "properties": {}
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "PostUser",
     "scriptFile": "backendapp.dll",
     "entryPoint": "backendapp.PostUser.Run",
