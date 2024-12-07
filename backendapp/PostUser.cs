@@ -1,4 +1,6 @@
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using Azure;
 using Microsoft.Azure.Functions.Worker;
@@ -32,12 +34,24 @@ namespace backendapp
                 await badRequestResponse.WriteStringAsync("Invalid user data.");
                 return badRequestResponse;
             }
+
+            if (!string.IsNullOrWhiteSpace(user.HashedPassword))
+            {
+                user.HashedPassword = HashedPassword(user.HashedPassword);
+            }
             _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(user);
             return response;
+        }
+        private string HashedPassword(string password)
+        {
+            using var sha256 = SHA256.Create();
+            var hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            var hashed = Convert.ToBase64String(hashBytes);
+            return hashed;
         }
     }
 }
